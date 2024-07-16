@@ -10,21 +10,23 @@ class AppBody extends StatefulWidget {
   AppBody({super.key});
 
   final List<Point3D> points = [
-    Point3D(0, 0, 0),
-    Point3D(100, 0, 0),
-    Point3D(100, 100, 0),
-    Point3D(0, 100, 0),
-    Point3D(0, 0, 100),
-    Point3D(100, 0, 100),
+    Point3D(-100, -100, -100),
+    Point3D(100, -100, -100),
+    Point3D(100, 100, -100),
+    Point3D(-100, 100, -100),
+    Point3D(-100, -100, 100),
+    Point3D(100, -100, 100),
     Point3D(100, 100, 100),
-    Point3D(0, 100, 100),
+    Point3D(-100, 100, 100),
   ];
 
   final List<Color> textures = [
-    Colors.red,
-    Colors.green,
+    Colors.amber,
     Colors.blue,
-    Colors.yellow
+    Colors.green,
+    Colors.purple,
+    Colors.black,
+    Colors.blueGrey,
   ];
   final Point3D lightSource = Point3D(150, 150, 150);
 
@@ -39,20 +41,6 @@ class AppBody extends StatefulWidget {
 }
 
 class _AppBodyState extends State<AppBody> {
-  rotateOnTap() {
-    setState(() {
-      widget.transform
-          .selfRotate(Point3D(0, widget.transform.rotation.y + 60, 0));
-    });
-  }
-
-  scaleOnTap() {
-    setState(() {
-      double x = widget.transform.scale.x * 2;
-      widget.transform.selfScale(Point3D(x, x, x));
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -66,7 +54,10 @@ class _AppBodyState extends State<AppBody> {
       children: [
         SizedBox.expand(
           child: CustomPaint(
-            painter: My3DVisualizer(sceneObjects: [sceneObject]),
+            painter: My3DVisualizer(
+              sceneObjects: [sceneObject],
+              viewDirection: Point3D(0, 0, 1),
+            ),
             child: Container(),
           ),
         ),
@@ -80,7 +71,7 @@ class _AppBodyState extends State<AppBody> {
                 child: Column(
                   children: [
                     const Text("Position:"),
-                    Text(widget.transform.position.x.toString()),
+                    Text(widget.transform.position.x.toStringAsFixed(3)),
                     Slider(
                       divisions: 201,
                       min: -1000,
@@ -90,7 +81,7 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.position.x = val;
                       }),
                     ),
-                    Text(widget.transform.position.y.toString()),
+                    Text(widget.transform.position.y.toStringAsFixed(3)),
                     Slider(
                       divisions: 201,
                       min: -1000,
@@ -100,7 +91,7 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.position.y = -val;
                       }),
                     ),
-                    Text(widget.transform.position.z.toString()),
+                    Text(widget.transform.position.z.toStringAsFixed(3)),
                     Slider(
                       divisions: 201,
                       min: -1000,
@@ -117,7 +108,7 @@ class _AppBodyState extends State<AppBody> {
                 child: Column(
                   children: [
                     const Text("Rotation:"),
-                    Text(widget.transform.rotation.x.toString()),
+                    Text(widget.transform.rotation.x.toStringAsFixed(3)),
                     Slider(
                       divisions: 201,
                       min: -1000,
@@ -129,7 +120,7 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.rotation = point;
                       }),
                     ),
-                    Text(widget.transform.rotation.y.toString()),
+                    Text(widget.transform.rotation.y.toStringAsFixed(3)),
                     Slider(
                       divisions: 201,
                       min: -1000,
@@ -141,7 +132,7 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.rotation = point;
                       }),
                     ),
-                    Text(widget.transform.rotation.z.toString()),
+                    Text(widget.transform.rotation.z.toStringAsFixed(3)),
                     Slider(
                       divisions: 201,
                       min: -1000,
@@ -160,7 +151,7 @@ class _AppBodyState extends State<AppBody> {
                 child: Column(
                   children: [
                     const Text("Scale:"),
-                    Text(widget.transform.scale.x.toString()),
+                    Text(widget.transform.scale.x.toStringAsFixed(3)),
                     Slider(
                       divisions: 100,
                       min: 0.01,
@@ -170,7 +161,7 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.scale.x = val;
                       }),
                     ),
-                    Text(widget.transform.scale.y.toString()),
+                    Text(widget.transform.scale.y.toStringAsFixed(3)),
                     Slider(
                       divisions: 100,
                       min: 0.01,
@@ -180,7 +171,7 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.scale.y = val;
                       }),
                     ),
-                    Text(widget.transform.scale.z.toString()),
+                    Text(widget.transform.scale.z.toStringAsFixed(3)),
                     Slider(
                       divisions: 100,
                       min: 0.01,
@@ -196,7 +187,6 @@ class _AppBodyState extends State<AppBody> {
             ],
           ),
         ),
-
       ],
     );
   }

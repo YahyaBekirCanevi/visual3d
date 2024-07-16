@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:visual3d/color_extension.dart';
 import 'package:visual3d/point3d.dart';
 import 'package:visual3d/transform3d.dart';
 
@@ -17,24 +18,58 @@ class SceneObject3D {
     required this.transform,
   });
 
-  void draw(Canvas canvas, Size size) {
+  void draw(Canvas canvas, Size size, Point3D viewDirection) {
     Paint paint = Paint()..strokeWidth = 2.0;
     List<Offset> projectedPoints = points.map((p) => transform.apply(p).project(size)).toList();
 
     // Draw faces with basic lighting
-    drawFace(canvas, paint, [0, 1, 2, 3], points, projectedPoints, lightSource, textures[0]);
-    drawFace(canvas, paint, [4, 5, 6, 7], points, projectedPoints, lightSource, textures[1]);
-    drawFace(canvas, paint, [0, 1, 5, 4], points, projectedPoints, lightSource, textures[2]);
-    drawFace(canvas, paint, [2, 3, 7, 6], points, projectedPoints, lightSource, textures[3]);
-    drawFace(canvas, paint, [0, 3, 7, 4], points, projectedPoints, lightSource, textures[0]);
-    drawFace(canvas, paint, [1, 2, 6, 5], points, projectedPoints, lightSource, textures[1]);
+    /*drawFace(canvas, paint, [0, 1, 2, 3], points, projectedPoints, lightSource, textures[0], viewDirection);
+    drawFace(canvas, paint, [4, 5, 6, 7], points, projectedPoints, lightSource, textures[1], viewDirection);
+    drawFace(canvas, paint, [0, 1, 5, 4], points, projectedPoints, lightSource, textures[2], viewDirection);
+    drawFace(canvas, paint, [2, 3, 7, 6], points, projectedPoints, lightSource, textures[3], viewDirection);
+    drawFace(canvas, paint, [0, 3, 7, 4], points, projectedPoints, lightSource, textures[0], viewDirection);
+    drawFace(canvas, paint, [1, 2, 6, 5], points, projectedPoints, lightSource, textures[1], viewDirection);*/
+    // Front face (indices in counter-clockwise order)
+    drawFace(canvas, paint, [0, 1, 2], points, projectedPoints, lightSource, textures[0], viewDirection);
+    drawFace(canvas, paint, [0, 2, 3], points, projectedPoints, lightSource, textures[0], viewDirection);
+
+    // Back face (indices in counter-clockwise order)
+    drawFace(canvas, paint, [4, 5, 6], points, projectedPoints, lightSource, textures[1], viewDirection);
+    drawFace(canvas, paint, [4, 6, 7], points, projectedPoints, lightSource, textures[1], viewDirection);
+
+    // Side faces (indices in counter-clockwise order)
+    drawFace(canvas, paint, [1, 5, 6], points, projectedPoints, lightSource, textures[2], viewDirection);
+    drawFace(canvas, paint, [1, 6, 2], points, projectedPoints, lightSource, textures[2], viewDirection);
+
+    drawFace(canvas, paint, [0, 4, 7], points, projectedPoints, lightSource, textures[3], viewDirection);
+    drawFace(canvas, paint, [0, 7, 3], points, projectedPoints, lightSource, textures[3], viewDirection);
+
+    drawFace(canvas, paint, [2, 6, 7], points, projectedPoints, lightSource, textures[0], viewDirection);
+    drawFace(canvas, paint, [2, 7, 3], points, projectedPoints, lightSource, textures[0], viewDirection);
+
+    drawFace(canvas, paint, [0, 1, 5], points, projectedPoints, lightSource, textures[1], viewDirection);
+    drawFace(canvas, paint, [0, 5, 4], points, projectedPoints, lightSource, textures[1], viewDirection);
+
   }
 
   void drawFace(Canvas canvas, Paint paint, List<int> indices, List<Point3D> points,
-      List<Offset> projectedPoints, Point3D lightSource, Color baseColor) {
-    Point3D normal = calculateNormal(points[indices[0]], points[indices[1]], points[indices[2]]);
-    double intensity = calculateLightIntensity(normal, points[indices[0]], lightSource);
-    paint.color = baseColor.withOpacity(intensity);
+      List<Offset> projectedPoints, Point3D lightSource, Color baseColor, Point3D viewDirection) {
+    Point3D normal = calculateNormal(
+      points[indices[0]],
+      points[indices[1]],
+      points[indices[2]],
+    );
+
+    double dotProduct = normal.x * viewDirection.x + normal.y * viewDirection.y + normal.z * viewDirection.z;
+    if (dotProduct < 0) return; // Skip drawing if face is not front-facing
+
+    double intensity = calculateLightIntensity(normal, transform.apply(points[indices[0]]), lightSource);
+    intensity = min(1, max(0, intensity));
+
+    Color faceColor = baseColor.withSaturation(1 - intensity).withOpacity(1);
+
+    paint.color = faceColor;
+    paint.style = PaintingStyle.stroke;
 
     Path path = Path();
     path.moveTo(projectedPoints[indices[0]].dx, projectedPoints[indices[0]].dy);

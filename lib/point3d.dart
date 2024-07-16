@@ -18,6 +18,9 @@ class Point3D {
   double length() {
     return sqrt(x * x + y * y + z * z);
   }
+  Point3D inverse() {
+    return Point3D(-x, -y, -z);
+  }
 
 
   @override
