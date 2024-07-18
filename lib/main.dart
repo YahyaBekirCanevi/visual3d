@@ -11,9 +11,15 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.blueGrey.shade900,
         appBar: AppBar(
-          title: const Text('3D Visualizer with Lighting and Texturing'),
+          backgroundColor: Colors.blueGrey.shade900,
+          title: const Text(
+            '3D Visualizer with Lighting and Texturing',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
         body: AppBody(),
       ),

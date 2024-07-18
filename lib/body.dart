@@ -43,6 +43,7 @@ class AppBody extends StatefulWidget {
 class _AppBodyState extends State<AppBody> {
   @override
   Widget build(BuildContext context) {
+    const TextStyle textStyle = TextStyle(color: Colors.white);
     Size size = MediaQuery.sizeOf(context);
     SceneObject3D sceneObject = SceneObject3D(
       points: widget.points,
@@ -70,32 +71,47 @@ class _AppBodyState extends State<AppBody> {
               Expanded(
                 child: Column(
                   children: [
-                    const Text("Position:"),
-                    Text(widget.transform.position.x.toStringAsFixed(3)),
+                    const Text(
+                      "Position:",
+                      style: textStyle,
+                    ),
+                    Text(
+                      widget.transform.position.x.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 201,
                       min: -1000,
                       max: 1000,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.position.x,
                       onChanged: (val) => setState(() {
                         widget.transform.position.x = val;
                       }),
                     ),
-                    Text(widget.transform.position.y.toStringAsFixed(3)),
+                    Text(
+                      widget.transform.position.y.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 201,
                       min: -1000,
                       max: 1000,
+                      activeColor: Colors.amber.shade900,
                       value: -widget.transform.position.y,
                       onChanged: (val) => setState(() {
                         widget.transform.position.y = -val;
                       }),
                     ),
-                    Text(widget.transform.position.z.toStringAsFixed(3)),
+                    Text(
+                      widget.transform.position.z.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 201,
                       min: -1000,
                       max: 1000,
+                      activeColor: Colors.amber.shade900,
                       value: -widget.transform.position.z,
                       onChanged: (val) => setState(() {
                         widget.transform.position.z = -val;
@@ -107,12 +123,19 @@ class _AppBodyState extends State<AppBody> {
               Expanded(
                 child: Column(
                   children: [
-                    const Text("Rotation:"),
-                    Text(widget.transform.rotation.x.toStringAsFixed(3)),
+                    const Text(
+                      "Rotation:",
+                      style: textStyle,
+                    ),
+                    Text(
+                      widget.transform.rotation.x.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 201,
                       min: -1000,
                       max: 1000,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.rotation.x * 180 / pi,
                       onChanged: (val) => setState(() {
                         Point3D point = widget.transform.rotation;
@@ -120,11 +143,15 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.rotation = point;
                       }),
                     ),
-                    Text(widget.transform.rotation.y.toStringAsFixed(3)),
+                    Text(
+                      widget.transform.rotation.y.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 201,
                       min: -1000,
                       max: 1000,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.rotation.y * 180 / pi,
                       onChanged: (val) => setState(() {
                         Point3D point = widget.transform.rotation;
@@ -132,11 +159,15 @@ class _AppBodyState extends State<AppBody> {
                         widget.transform.rotation = point;
                       }),
                     ),
-                    Text(widget.transform.rotation.z.toStringAsFixed(3)),
+                    Text(
+                      widget.transform.rotation.z.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 201,
                       min: -1000,
                       max: 1000,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.rotation.z * 180 / pi,
                       onChanged: (val) => setState(() {
                         Point3D point = widget.transform.rotation;
@@ -150,32 +181,47 @@ class _AppBodyState extends State<AppBody> {
               Expanded(
                 child: Column(
                   children: [
-                    const Text("Scale:"),
-                    Text(widget.transform.scale.x.toStringAsFixed(3)),
+                    const Text(
+                      "Scale:",
+                      style: textStyle,
+                    ),
+                    Text(
+                      widget.transform.scale.x.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 100,
                       min: 0.01,
                       max: 10,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.scale.x,
                       onChanged: (val) => setState(() {
                         widget.transform.scale.x = val;
                       }),
                     ),
-                    Text(widget.transform.scale.y.toStringAsFixed(3)),
+                    Text(
+                      widget.transform.scale.y.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 100,
                       min: 0.01,
                       max: 10,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.scale.y,
                       onChanged: (val) => setState(() {
                         widget.transform.scale.y = val;
                       }),
                     ),
-                    Text(widget.transform.scale.z.toStringAsFixed(3)),
+                    Text(
+                      widget.transform.scale.z.toStringAsFixed(3),
+                      style: textStyle,
+                    ),
                     Slider(
                       divisions: 100,
                       min: 0.01,
                       max: 10,
+                      activeColor: Colors.amber.shade900,
                       value: widget.transform.scale.z,
                       onChanged: (val) => setState(() {
                         widget.transform.scale.z = val;
