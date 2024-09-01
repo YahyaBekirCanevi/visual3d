@@ -1,20 +1,20 @@
 import 'dart:math';
 
-import 'package:visual3d/point3d.dart';
+import 'package:visual3d/model/point3d.dart';
 
 class Transform3D {
-  Point3D position = Point3D.zero();
-  Point3D rotation = Point3D.zero();
-  Point3D scale = Point3D.one();
+  Point3D position = Points.zero();
+  Point3D rotation = Points.zero();
+  Point3D scale = Points.one();
 
   Transform3D({
     Point3D? position,
     Point3D? rotation,
     Point3D? scale,
   }) {
-    this.position = position ?? Point3D.zero();
-    this.rotation = rotation ?? Point3D.zero();
-    this.scale = scale ?? Point3D.one();
+    this.position = position ?? Points.zero();
+    this.rotation = rotation ?? Points.zero();
+    this.scale = scale ?? Points.one();
   }
 
   // Apply transformations to a point
@@ -76,5 +76,19 @@ class Transform3D {
   }
   void selfTranslate(Point3D point) {
     position = translate(point);
+  }
+  // Forward direction vector
+  Point3D forward() {
+    return rotate(Point3D(0, 0, 1));
+  }
+
+  // Right direction vector
+  Point3D right() {
+    return rotate(Point3D(1, 0, 0));
+  }
+
+  // Up direction vector
+  Point3D up() {
+    return rotate(Point3D(0, 1, 0));
   }
 }

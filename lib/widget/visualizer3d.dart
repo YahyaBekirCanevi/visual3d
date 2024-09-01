@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:visual3d/point3d.dart';
-import 'package:visual3d/scene_object3d.dart';
+import 'package:visual3d/model/scene_object3d.dart';
+import 'package:visual3d/model/scene_object_drawer.dart';
 
 class My3DVisualizer extends CustomPainter {
   final List<SceneObject3D> sceneObjects;
-  final Point3D viewDirection;
+  final SceneObjectDrawer drawer;
 
-  const My3DVisualizer({required this.viewDirection, required this.sceneObjects});
+  const My3DVisualizer({
+    required this.sceneObjects,
+    required this.drawer,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     for (SceneObject3D e in sceneObjects) {
-      e.draw(canvas, size, viewDirection);
+      e.drawer = drawer;
+      e.draw(canvas, size);
     }
   }
 

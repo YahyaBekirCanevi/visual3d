@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:visual3d/body.dart';
+import 'package:visual3d/widget/body.dart';
+
+import 'model/scene_object_drawer.dart';
 
 void main() {
   runApp(const MainApp());
@@ -21,7 +23,9 @@ class MainApp extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: AppBody(),
+        body: AppBody(
+          drawer: SceneObjectDrawer(),
+        ),
       ),
     );
   }
